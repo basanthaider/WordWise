@@ -1,0 +1,77 @@
+version: "3"
+services:
+  book-app:
+    container_name: book-app-container
+    image: book-app
+    restart: always
+    build: ./BookServiceApp
+    ports:
+      - "9092:8080"
+    environment:
+      MYSQL_HOST: bookdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+  bookdb:
+    container_name: bookdb
+    image: mysql:8.0.36
+#    volumes:
+#      - C:\Users\BaSant\OneDrive - Faculty of Computers and Information\Desktop\New folder:/var/lib/mysql
+    ports:
+      - "4040:3306"
+    environment:
+      MYSQL_DATABASE: bookdb
+      MYSQL_ROOT_PASSWORD: root
+
+  user-app:
+    container_name: user-app-container
+    image: user-app
+    restart: always
+    build: ./UserServiceApp
+    ports:
+      - "9093:8080"
+    environment:
+      MYSQL_HOST: userdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+  userdb:
+      container_name: userdb
+      image: mysql:8.0.36
+#    volumes:
+#      - C:\Users\BaSant\OneDrive - Faculty of Computers and Information\Desktop\New folder:/var/lib/mysql
+      ports:
+        - "4041:3306"
+      environment:
+        MYSQL_DATABASE: userdb
+        MYSQL_ROOT_PASSWORD: root
+
+  borrowing-app:
+    container_name: borrowing-app-container
+    image: borrowing-app
+    restart: always
+    build: ./BorrowingServiceApp
+    ports:
+      - "9094:8080"
+    environment:
+      MYSQL_HOST: borrowingdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_PORT: 3306
+  borrowingdb:
+      container_name: borrowingdb
+      image: mysql:8.0.36
+      #    volumes:
+      #      - C:\Users\BaSant\OneDrive - Faculty of Computers and Information\Desktop\New folder:/var/lib/mysql
+      ports:
+        - "4042:3306"
+      environment:
+        MYSQL_DATABASE: borrowingdb
+        MYSQL_ROOT_PASSWORD: root
+  react:
+    build: ./ReactServiceApp
+    container_name: react-app-container
+    stdin_open: true
+    ports:
+      - "3000:3000"
+
